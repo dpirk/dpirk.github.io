@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boka lägenhet – Fackens</title>
+  <link rel="stylesheet" href="/start.css">
+  <link rel="stylesheet" href="/booking.css">
+  <link rel="stylesheet" href="/vendor/fullcalendar/main.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1 class="logo">Fackens Personalklubb Kalix</h1>
+      <nav class="nav">
+        <a href="/start.html">Start</a>
+        <a href="/index.html" aria-current="page">Bokning</a>
+        <a href="/bilder.html">Bilder</a>
+        <a href="/information.html">Information</a>
+        <a href="/login.html" class="login">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Liten hero/intro för visuell samhörighet med startsidan -->
+  <section class="hero hero--small" role="banner" aria-label="Bokning">
+    <div class="hero__content">
+      <h2>Boka lägenheten</h2>
+      <p class="sub">Välj datum i kalendern och fyll i dina uppgifter</p>
+      <div class="pill"><strong>550 kr / natt</strong><span> – upp till 4 personer</span></div>
+    </div>
+  </section>
+
+  <main class="wrap booking-wrap">
+    <div id="booking-container" class="booking-grid">
+      <!-- Kalender-kort -->
+      <section class="card" aria-label="Kalender">
+        <div id="calendar" class="calendar"></div>
+      </section>
+
+      <!-- Form-kort -->
+      <aside class="card form-card" aria-label="Bokningsformulär">
+        <div id="selected-range" class="selected-range"></div>
+        <div id="message" class="message" role="status" aria-live="polite"></div>
+
+        <form id="booking-form" class="form">
+          <label for="name">Namn</label>
+          <input type="text" id="name" required>
+
+          <label for="phone">Telefonnummer</label>
+          <input type="tel" id="phone" required>
+
+          <label for="email">E‑postadress</label>
+          <input type="email" id="email" required>
+
+          <button type="submit" disabled>Boka nu</button>
+        </form>
+
+        <div id="payment-section" class="payment" hidden>
+          <h3>Betalning via Swish</h3>
+          <p>Scanna QR‑koden eller öppna Swish‑appen:</p>
+          <img id="swish-qr" alt="Swish QR" />
+          <a id="swish-link" href="#" target="_blank" rel="noopener">Öppna i Swish</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <section class="partners">
+    <div class="wrap">
+      <img src="/bilder/4fack.png" alt="Akademikerförbundet SSR, Kommunal, Sveriges Lärare och Vision" />
+    </div>
+  </section>
+
+  <script src="/vendor/fullcalendar/main.min.js"></script>
+  <script src="/vendor/fullcalendar/locales/sv.js"></script>
+  <script src="/script.js" defer></script>
+</body>
+</html>

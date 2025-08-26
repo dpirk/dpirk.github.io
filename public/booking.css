@@ -1,0 +1,56 @@
+/* Layout runt bokningen */
+.booking-wrap{ padding: 24px 0 40px; }
+
+.booking-grid{
+  display:grid; gap:20px; align-items:start;
+  grid-template-columns: 1.2fr .8fr;
+}
+@media (max-width: 1024px){ .booking-grid{ grid-template-columns: 1fr; } }
+
+/* Återanvänd kortstil likt startsidan */
+.card{
+  background:#fff; border:1px solid #e5e7eb; border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
+}
+
+/* Kalenderkort */
+.calendar{ padding:16px; }
+
+/* Formkort */
+.form-card{ padding:18px; }
+.selected-range{ font-weight:700; margin-bottom:10px; }
+.message{ min-height:22px; margin-bottom:8px; }
+
+.form{ display:flex; flex-direction:column; gap:10px; }
+.form label{ font-weight:600; }
+.form input{
+  padding:10px 12px; border:1px solid #cbd5e1; border-radius:10px; font-size:16px;
+}
+.form input:focus{ outline:2px solid var(--ring); outline-offset:2px; border-color:#94a3b8; }
+.form button{
+  margin-top:6px; padding:12px 14px; font-weight:700; font-size:16px; cursor:pointer;
+  background:var(--primary); color:#fff; border:1px solid var(--primary); border-radius:12px;
+  transition:.15s;
+}
+.form button:hover{ background:var(--primary-600); }
+.form button:disabled{ background:#cbd5e1; border-color:#cbd5e1; cursor:not-allowed; }
+
+/* Payment (Swish) */
+.payment{ text-align:center; margin-top:16px; }
+.payment[hidden]{ display:none !important; }
+.payment img{ max-width:200px; width:100%; height:auto; display:block; margin:10px auto 12px; border-radius:8px; }
+.payment a{ font-weight:700; text-decoration:underline; }
+
+/* Mindre hero */
+.hero.hero--small{ min-height:auto; padding: 30px 0; }
+.hero.hero--small .hero__content h2{ font-size: 32px; }
+.hero.hero--small .hero__content .sub{ margin-bottom: 12px; }
+
+/* Markering av valda datum (solid bakgrund) */
+.fc .fc-daygrid-day.selected-day{
+  background: #d1fae5 !important;      /* ljusgrön */
+}
+.fc .fc-daygrid-day.selected-day .fc-daygrid-day-number{
+  font-weight: 700;
+  color: #065f46;                       /* mörkgrön text */
+}

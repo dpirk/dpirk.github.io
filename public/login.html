@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admininlogg</title>
+  <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>Admininlogg</h1>
+    <nav class="site-nav">
+      <a href="/index.html">Bokning</a>
+      <a href="/bilder.html">Bilder</a>
+      <a href="/information.html">Information</a>
+    </nav>
+  </header>
+
+  <main class="auth-wrap">
+    <section class="auth-card" aria-labelledby="login-title">
+      <h2 id="login-title">Logga in som administratör</h2>
+      <p class="muted">Ange dina uppgifter för att fortsätta.</p>
+
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="username">Användarnamn</label>
+          <input id="username" name="username" autocomplete="username" required />
+        </div>
+
+        <div class="field">
+          <label for="password">Lösenord</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+        </div>
+
+        <button type="submit" class="btn-primary" id="login-btn">
+          Logga in
+        </button>
+
+        <p id="login-msg" class="msg" role="alert" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="partners">
+      <img src="/bilder/4fack.png" alt="Fackens logotyper">
+    </section>
+  </main>
+
+  <script src="/login.js" defer></script>
+</body>
+</html>

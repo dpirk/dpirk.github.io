@@ -1,0 +1,22 @@
+{
+  "name": "fackens-booking",
+  "version": "1.0.0",
+  "description": "Fackens Personallägenhet Booking System v16",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "body-parser": "^1.20.3",
+    "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.1",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^7.0.5",
+    "qrcode": "^1.5.4"
+  }
+}

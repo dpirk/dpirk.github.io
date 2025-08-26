@@ -1,0 +1,101 @@
+{
+  "bookings": [
+    {
+      "id": "1753313362390",
+      "startDate": "2025-08-01",
+      "endDate": "2025-08-02",
+      "name": "test",
+      "phone": "test",
+      "email": "Dpirkkanen@hotmail.com"
+    },
+    {
+      "id": "1753316656570",
+      "startDate": "2025-08-05",
+      "endDate": "2025-08-05",
+      "name": "Test",
+      "phone": "0730291223",
+      "email": "Dpirkkanen@hotmail.com"
+    },
+    {
+      "id": "1753352550719",
+      "startDate": "2025-08-20",
+      "endDate": "2025-08-21",
+      "name": "test 2",
+      "phone": "123",
+      "email": "Dpirkkanen@hotmail.com"
+    },
+    {
+      "id": "1753357185201",
+      "startDate": "2025-08-30",
+      "endDate": "2025-09-03",
+      "name": "test3",
+      "phone": "3123",
+      "email": "Dpirkkanen@hotmail.com"
+    },
+    {
+      "id": "1753363946553",
+      "startDate": "2025-07-03",
+      "endDate": "2025-07-03",
+      "name": "test5",
+      "phone": "123",
+      "email": "Dpirkkanen@hotmail.com"
+    },
+    {
+      "id": "1753825359849",
+      "startDate": "2025-08-24",
+      "endDate": "2025-08-24",
+      "name": "Daniel Pirkkanen Snäll",
+      "phone": "0730291223",
+      "email": "Dpirkkanen@hotmail.com"
+    },
+    {
+      "id": "1753825755012",
+      "startDate": "2025-08-23",
+      "endDate": "2025-08-23",
+      "name": "Manual",
+      "phone": "0730291223",
+      "email": "Dpirkkanen@hotmail.com"
+    },
+    {
+      "id": "1754601031552",
+      "startDate": "2025-08-26",
+      "endDate": "2025-08-27",
+      "name": "Test8/7",
+      "phone": "0730291223",
+      "email": "dpirkkanen@hotmail.com"
+    },
+    {
+      "id": "1754835780278",
+      "startDate": "2025-08-28",
+      "endDate": "2025-08-29",
+      "name": "Test10",
+      "phone": "01010",
+      "email": "Dpirkkanen@gmail.com"
+    },
+    {
+      "id": "1755132595846",
+      "startDate": "2025-08-16",
+      "endDate": "2025-08-17",
+      "name": "Daniel Pirkkanen Snäll",
+      "phone": "0730291223",
+      "email": "Dpirkkanen@hotmail.com"
+    },
+    {
+      "id": "1755171068357",
+      "startDate": "2025-09-05",
+      "endDate": "2025-09-06",
+      "name": "Daniel Pirkkanen Snäll",
+      "phone": "123",
+      "email": "Dpirkkanen@gmail.com"
+    },
+    {
+      "id": "1755171185904",
+      "startDate": "2025-09-10",
+      "endDate": "2025-09-12",
+      "name": "Test",
+      "phone": "123",
+      "email": "Dpirkkanen@gmail.com"
+    }
+  ],
+  "blocks": []
+}

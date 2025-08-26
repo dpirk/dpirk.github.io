@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adminpanel</title>
+  <link rel="stylesheet" href="vendor/fullcalendar/main.min.css">
+  <link rel="stylesheet" href="admin.css">
+  
+</head>
+<body>
+  <h1>Adminpanel</h1>
+  <div id="admin-message"></div>
+
+  
+    <button id="download-pdf">Ladda ner PDF (6 veckor)</button>
+    <button id="logout">Logga ut</button>
+  </div>
+
+  <div id="admin-container">
+    <div id="admin-calendar"></div>
+    <div id="side-panel">
+      <h3>Detaljer</h3>
+      <div id="selected-details"><p>Klicka på en bokning i kalendern för att visa detaljer här.</p></div>
+      <h3>Lägg till bokning (manuell)</h3>
+      <form id="manual-booking">
+        <label>Namn:</label>
+        <input type="text" id="manual-name" required>
+        <label>Telefon:</label>
+        <input type="tel" id="manual-phone" required>
+        <label>E‑post:</label>
+        <input type="email" id="manual-email" required>
+        <label>Startdatum:</label>
+        <input type="date" id="manual-start" required>
+        <label>Slutdatum:</label>
+        <input type="date" id="manual-end" required>
+        <button type="submit">Skapa bokning</button>
+      </form>
+    </div>
+  </div>
+
+  <h2>Alla bokningar och blockeringar</h2>
+  <div id="booking-list"></div>
+
+  <div id="stats-section">
+  <h2>Statistik för <span id="stats-year"></span></h2>
+
+  <div id="stats-container">
+    <div class="chart-wrapper">
+      <canvas id="bookings-chart"></canvas>
+    </div>
+    <div class="chart-wrapper">
+      <canvas id="revenue-chart"></canvas>
+    </div>
+  </div>
+
+  <div id="year-summary"></div>
+</div>
+
+  <!-- Lokala bibliotek -->
+  <script src="vendor/fullcalendar/main.min.js"></script>
+  <script src="vendor/fullcalendar/locales/sv.js"></script>
+  <script src="vendor/chart.js/chart.umd.js"></script>
+  <script src="vendor/jspdf/jspdf.umd.min.js"></script>
+  <script src="admin.js" defer></script>
+</body>
+</html>
