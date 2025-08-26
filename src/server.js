@@ -119,6 +119,11 @@ app.use(cookieParser());
 
 // Statiska filer först
 app.use(express.static(PUBLIC_DIR));
+const staticOptions = {
+    index: 'start.html'
+};
+
+app.use(express.static('public', staticOptions));
 
 // Endast API:er begränsas
 const apiLimiter = rateLimit({
