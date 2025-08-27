@@ -81,8 +81,16 @@ try {
   console.warn('Kunde inte initiera mailtransport:', err.message);
 }
 async function safeSendMail(opts) {
-  if (!transporter) return;
-  try { await transporter.sendMail(opts); } catch (e) { console.error('Mailfel:', e.message); }
+  if (!transporter) {
+    console.error('Mail-transporter är inte initierad. Kontrollera .env-inställningar.');
+    return;
+  }
+  try { 
+    await transporter.sendMail(opts); 
+  } catch (e) { 
+    // ÄNDRINGEN ÄR HÄR: Logga hela felobjektet, inte bara meddelandet.
+    console.error('Mailfel:', e); 
+  }
 }
 
 // ---- App ----
