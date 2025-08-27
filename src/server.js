@@ -1,6 +1,19 @@
 // v17.1 – härdad server: .env, datumfix, överlapps‑kontroll, rate‑limit endast /api, helmet m/CSP, komprimering, manuell bokning
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
+const fs = require('fs'); // Lägg till denna rad också
+
+// ---- TEMPORÄR FELSÖKNING ----
+const envPath = path.join(__dirname, '../.env');
+console.log(`[FELSÖKNING] Letar efter .env-fil på: ${envPath}`);
+
+if (fs.existsSync(envPath)) {
+    console.log('[FELSÖKNING] ✅ .env-fil hittades på sökvägen!');
+} else {
+    console.log('[FELSÖKNING] ❌ HITTADE INTE .env-filen på den sökvägen!');
+}
+// ---- SLUT FELSÖKNING ----
+
+require('dotenv').config({ path: envPath });
 
 const express = require('express');
 const fs = require('fs');
