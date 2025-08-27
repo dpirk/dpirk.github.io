@@ -8,12 +8,52 @@
 
   const $ = (s) => document.querySelector(s);
 
+  
+
   // ===== Helpers =====
   async function fetchJSON(url, opts){
     const res = await fetch(url, opts);
     if(!res.ok) throw new Error(await res.text());
     return res.json();
   }
+
+  // Vänta tills sidan har laddat klart
+document.addEventListener('DOMContentLoaded', () => {
+  const themeToggle = document.getElementById('theme-toggle');
+
+  themeToggle.addEventListener('click', () => {
+    // Växla klassen .dark-mode på <html>-elementet
+    document.documentElement.classList.toggle('dark-mode');
+
+    // (Vi lägger till logik för att spara valet i nästa steg)
+  });
+});
+
+// admin.js
+document.addEventListener('DOMContentLoaded', () => {
+  const themeToggle = document.getElementById('theme-toggle');
+  const htmlElement = document.documentElement;
+
+  themeToggle.addEventListener('click', () => {
+    htmlElement.classList.toggle('dark-mode');
+
+    // Spara valet i localStorage
+    if (htmlElement.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+      themeToggle.innerHTML = "☀️ Byt till ljust läge";
+    } else {
+      localStorage.setItem('theme', 'light');
+      themeToggle.innerHTML = "🌙 Byt till mörkt läge";
+    }
+  });
+
+  // Uppdatera knappens text vid sidladdning
+  if (localStorage.getItem('theme') === 'dark') {
+    themeToggle.innerHTML = "☀️ Byt till ljust läge";
+  } else {
+    themeToggle.innerHTML = "🌙 Byt till mörkt läge";
+  }
+});
 
   // ===== Lista över bokningar/block =====
   function renderList(data){
