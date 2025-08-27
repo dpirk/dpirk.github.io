@@ -65,7 +65,9 @@ h1 {
 
 #admin-calendar {
   flex: 2;
-  background: #fff;
+  background-color: var(--kort-bakgrund); /* Eller en något mörkare variant om du vill */
+  color: var(--textfarg);
+  border: 1px solid var(--kantlinje-farg);
   padding: 15px;
   border-radius: 8px;
   max-width: 900px;
@@ -74,7 +76,9 @@ h1 {
 
 #side-panel {
   flex: 1;
-  background: #f9f9f9;
+  background-color: var(--kort-bakgrund); /* Eller en något mörkare variant om du vill */
+  color: var(--textfarg);
+  border: 1px solid var(--kantlinje-farg);
   padding: 15px;
   border-radius: 8px;
   border: 1px solid #ccc;
