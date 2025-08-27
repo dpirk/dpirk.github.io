@@ -176,7 +176,8 @@ h1 {
 
 /* Knappar */
 button#download-pdf,
-button#logout {
+button#logout,
+button#theme-toggle {
   padding: 8px 14px;
   background-color: #0077cc;
   color: white;
@@ -186,7 +187,8 @@ button#logout {
 }
 
 button#download-pdf:hover,
-button#logout:hover {
+button#logout:hover,
+button#theme-toggle:hover {
   background-color: #005fa3;
 }
 
