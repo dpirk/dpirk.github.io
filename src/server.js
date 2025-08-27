@@ -118,7 +118,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Statiska filer först
-app.use(express.static(PUBLIC_DIR));
 const staticOptions = {
     index: 'start.html'
 };
