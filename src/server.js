@@ -16,7 +16,6 @@ if (fs.existsSync(envPath)) {
 require('dotenv').config({ path: envPath });
 
 const express = require('express');
-const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const qrcode = require('qrcode');
 const cron = require('node-cron');
