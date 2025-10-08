@@ -288,7 +288,7 @@ app.post('/api/book', async (req, res) => {
 const dayCount = daysInclusive(booking.startDate, booking.endDate);
 const totalPrice = dayCount * DAILY_RATE_SEK;
 const instructionUUID = crypto.randomUUID();
-
+console.log('Skapade Swish-förfrågan med UUID:', instructionUUID);
 const swishPayload = {
   payeePaymentReference: booking.id,
   callbackUrl: `https://personallagenhet.se/api/swish-callback`,
