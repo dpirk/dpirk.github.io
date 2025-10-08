@@ -315,7 +315,6 @@ app.post('/api/book', async (req, res) => {
   }, 5000);
 
   res.json({ bookingId: id, swishUri, qrCode });
-});
 
 // Statistik per månad (aktuellt år)
 app.get('/api/statistics', requireAdmin, (req, res) => {
