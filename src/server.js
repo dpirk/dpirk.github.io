@@ -1,17 +1,9 @@
 // v17.1 – härdad server: .env, datumfix, överlapps‑kontroll, rate‑limit endast /api, helmet m/CSP, komprimering, manuell bokning
 const path = require('path');
-const fs = require('fs'); // Lägg till denna rad också
-
-// ---- TEMPORÄR FELSÖKNING ----
-const envPath = path.join(__dirname, '../.env');
-console.log(`[FELSÖKNING] Letar efter .env-fil på: ${envPath}`);
-
-if (fs.existsSync(envPath)) {
-    console.log('[FELSÖKNING] ✅ .env-fil hittades på sökvägen!');
-} else {
-    console.log('[FELSÖKNING] ❌ HITTADE INTE .env-filen på den sökvägen!');
-}
-// ---- SLUT FELSÖKNING ----
+const fs = require('fs');
+const https = require('https');
+const crypto = require('crypto');
+const axios = require('axios');
 
 require('dotenv').config({ path: envPath });
 
@@ -36,6 +28,23 @@ const BOOKINGS_FILE = path.join(DATA_DIR, 'bookings.json');
 
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(BACKUP_DIR)) fs.mkdirSync(BACKUP_DIR, { recursive: true });
+
+
+
+// Skapa en HTTPS-agent som använder Swish-certifikatet
+let swishAgent = null;
+if (process.env.SWISH_CERT_PATH && process.env.SWISH_CERT_PASSWORD) {
+  try {
+    swishAgent = new https.Agent({
+      pfx: fs.readFileSync(process.env.SWISH_CERT_PATH),
+      passphrase: process.env.SWISH_CERT_PASSWORD,
+    });
+  } catch (err) {
+    console.error('Kunde inte ladda Swish-certifikatet:', err.message);
+  }
+}
+
+
 
 // ---- Datumutils ----
 function parseLocalDate(yyyyMmDd) {
@@ -275,30 +284,80 @@ app.post('/api/book', async (req, res) => {
     return res.json({ success: true, booking });
   }
 
-  // ---- Swish-sandbox (simulerad) ----
-  const swishUri = `swish://paymentrequest?token=${id}`;
-  const qrCode = await qrcode.toDataURL(swishUri);
-  pendingBookings[id] = booking;
+  //SWISH LOGIC 
+const dayCount = daysInclusive(booking.startDate, booking.endDate);
+const totalPrice = dayCount * DAILY_RATE_SEK;
+const instructionUUID = crypto.randomUUID();
+
+const swishPayload = {
+  payeePaymentReference: booking.id,
+  callbackUrl: `https://personallagenhet.se/api/swish-callback`,
+  payerAlias: phone,
+  payeeAlias: process.env.SWISH_PAYEE_ALIAS,
+  amount: totalPrice,
+  currency: 'SEK',
+  message: `Bokning Fackens lgh ${booking.startDate}`
+};
+
+if (!swishAgent) {
+    return res.status(500).json({ error: 'Swish-betalning är inte konfigurerad korrekt på servern.' });
+}
+
+try {
+  const response = await axios.put(
+    `${process.env.SWISH_API_URL}/api/v2/paymentrequests/${instructionUUID}`,
+    swishPayload,
+    { httpsAgent: swishAgent }
+  );
+
+  const paymentRequestToken = response.headers['paymentrequesttoken'];
+
+  pendingBookings[instructionUUID] = booking;
+  setTimeout(() => { if (pendingBookings[instructionUUID]) delete pendingBookings[instructionUUID]; }, 5 * 60 * 1000); // 5 min timeout
+
+  res.json({ paymentRequestToken });
+
+} catch (err) {
+  console.error('Fel vid skapande av Swish-betalning:', err.response ? err.response.data : err.message);
+  res.status(500).json({ error: 'Kunde inte initiera betalning med Swish.' });
+}
 
   // Timeout efter 2 min
   setTimeout(() => { if (pendingBookings[id]) delete pendingBookings[id]; }, 2 * 60 * 1000);
 
-  // Simulerad betalning efter 5 sek
-  setTimeout(async () => {
-    const pend = pendingBookings[id];
-    if (!pend) return;
+  
 
-    const fresh = loadBookings();
-    const clash = [...fresh.bookings, ...fresh.blocks].some(r => rangesOverlap(pend.startDate, pend.endDate, r.startDate, r.endDate));
-    if (clash) { delete pendingBookings[id]; return; }
+    //CALLBACK
+    app.post('/api/swish-callback', (req, res) => {
+  const paymentData = req.body;
+  console.log('Swish Callback mottagen:', paymentData);
 
-    fresh.bookings.push(pend);
-    saveBookings(fresh);
-    delete pendingBookings[id];
+  const booking = pendingBookings[paymentData.id];
+
+  if (booking && paymentData.status === 'PAID') {
+    const data = loadBookings();
+    const collision = [...data.bookings, ...data.blocks].some(r => rangesOverlap(booking.startDate, booking.endDate, r.startDate, r.endDate));
+
+    if (!collision) {
+        data.bookings.push(booking);
+        saveBookings(data);
+        console.log(`Bokning ${booking.id} slutförd och sparad.`);
+
+        // Skicka dina bekräftelsemail (din befintliga safeSendMail-logik)
+        // Du kan kopiera/klistra in mail-logiken från din gamla setTimeout här
+    } else {
+        console.warn(`Kollision upptäckt för Swish-betalning, bokning ${booking.id} slutförs ej.`);
+    }
+    delete pendingBookings[paymentData.id];
+  } else if (booking) {
+    delete pendingBookings[paymentData.id];
+  }
+
+  res.status(200).send();
+});
 
     // Bekräftelsemail (om transporter finns)
-    const dayCount = daysInclusive(pend.startDate, pend.endDate);
-    const totalPrice = dayCount * DAILY_RATE_SEK;
+  
     const fmt = (iso) => { const d = parseLocalDate(iso); return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`; };
     const htmlMail = `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #ddd;border-radius:8px;">
