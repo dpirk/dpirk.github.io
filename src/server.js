@@ -5,7 +5,8 @@ const https = require('https');
 const crypto = require('crypto');
 const axios = require('axios');
 
-require('dotenv').config({ path: envPath });
+// ---- KORREKT .env ----
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 const express = require('express');
 const cookieParser = require('cookie-parser');
