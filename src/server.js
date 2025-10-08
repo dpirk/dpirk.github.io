@@ -255,6 +255,8 @@ app.post('/api/book', async (req, res) => {
     message: `Bokning Fackens lgh ${booking.startDate}`
   };
 
+  console.log('Skickar följande payload till Swish:', swishPayload);
+
   try {
     const response = await axios.put(
       `${process.env.SWISH_API_URL}/api/v2/paymentrequests/${instructionUUID}`,
