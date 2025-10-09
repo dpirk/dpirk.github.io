@@ -209,3 +209,6 @@ body{
 @keyframes success-fill {
   100% { box-shadow: inset 0px 0px 0px 40px #d1fae5; } /* Ljusgrön fyllning */
 }
+.payment-status-text {
+margin-top: 15px
+}
