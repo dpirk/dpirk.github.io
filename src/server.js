@@ -269,11 +269,15 @@ const amountAsString = totalPrice.toFixed(2);
 );
 
     const paymentRequestToken = response.headers['paymentrequesttoken'];
+    
+    //QRkod 
+    const qrCode = await qrcode.toDataURL(paymentRequestToken);
+    
     pendingBookings[instructionUUID] = booking;
 
     setTimeout(() => { if (pendingBookings[instructionUUID]) delete pendingBookings[instructionUUID]; }, 5 * 60 * 1000);
 
-    res.json({ paymentRequestToken });
+     res.json({ paymentRequestToken, qrCode, bookingId: booking.id });
 
   } catch (err) {
     console.error('Fel vid skapande av Swish-betalning:', err.response ? err.response.data : err.message);
