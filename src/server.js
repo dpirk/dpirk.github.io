@@ -185,6 +185,22 @@ app.post('/api/logout', (req, res) => {
 // ---- API ----
 app.get('/api/availability', (req, res) => { res.json(loadBookings()); });
 app.get('/api/calendar', requireAdmin, (req, res) => { res.json(loadBookings()); });
+
+// Ny route för att kolla betalningsstatus
+app.get('/api/payment-status/:id', (req, res) => {
+    const { id } = req.params;
+    const data = loadBookings();
+
+    // Kolla om bokningen finns bland de slutförda (betalda) bokningarna
+    const isPaid = data.bookings.some(b => b.id === id);
+
+    if (isPaid) {
+        res.json({ status: 'PAID' });
+    } else {
+        res.json({ status: 'PENDING' });
+    }
+});
+
 app.post('/api/remove', requireAdmin, (req, res) => {
   const { id } = req.body || {};
   const data = loadBookings();

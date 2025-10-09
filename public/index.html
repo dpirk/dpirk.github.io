@@ -40,29 +40,35 @@
 
       <!-- Form-kort -->
       <aside class="card form-card" aria-label="Bokningsformulär">
-        <div id="selected-range" class="selected-range"></div>
-        <div id="message" class="message" role="status" aria-live="polite"></div>
+    <div id="selected-range" class="selected-range"></div>
+    <div id="message" class="message" role="status" aria-live="polite"></div>
 
-        <form id="booking-form" class="form">
-          <label for="name">Namn</label>
-          <input type="text" id="name" required>
+    <form id="booking-form" class="form">
+        <label for="name">Namn</label>
+        <input type="text" id="name" name="name" required>
 
-          <label for="phone">Telefonnummer</label>
-          <input type="tel" id="phone" required>
+        <label for="phone">Telefonnummer</label>
+        <input type="tel" id="phone" name="phone" required>
 
-          <label for="email">E‑postadress</label>
-          <input type="email" id="email" required>
+        <label for="email">E‑postadress</label>
+        <input type="email" id="email" name="email" required>
 
-          <button type="submit" disabled>Boka nu</button>
-        </form>
+        <button type="submit" id="pay-button" disabled>Boka och betala med Swish</button>
+        
+        <div id="form-error" ></div>
+    </form>
 
-        <div id="payment-section" class="payment" hidden>
-          <h3>Betalning via Swish</h3>
-          <p>Scanna QR‑koden eller öppna Swish‑appen:</p>
-          <img id="swish-qr" alt="Swish QR" />
-          <a id="swish-link" href="#" target="_blank" rel="noopener">Öppna i Swish</a>
+    <div id="swish-waiting-container">
+        <h3>Väntar på Swish...</h3>
+        <p>En betalningsförfrågan har skickats. Godkänn betalningen i din Swish-app för att slutföra bokningen.</p>
+        <p><strong>Bokar du från en dator?</strong><br>Öppna Swish-appen i din mobil och skanna QR-koden nedan.</p>
+        <div id="qr-code-wrapper">
+            <img id="swish-qr-code" src="" alt="Skanna med Swish">
         </div>
-      </aside>
+        <p id="payment-status-text" style="margin-top: 15px;"></p>
+        <button id="cancel-payment-button">Avbryt</button>
+    </div>
+</aside>
     </div>
   </main>
 

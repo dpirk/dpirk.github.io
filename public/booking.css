@@ -1,56 +1,147 @@
 /* Layout runt bokningen */
-.booking-wrap{ padding: 24px 0 40px; }
-
-.booking-grid{
-  display:grid; gap:20px; align-items:start;
-  grid-template-columns: 1.2fr .8fr;
+.booking-wrap {
+  padding: 24px 0 40px;
 }
-@media (max-width: 1024px){ .booking-grid{ grid-template-columns: 1fr; } }
+
+.booking-grid {
+  display: grid;
+  gap: 20px;
+  align-items: start;
+  grid-template-columns: 1.2fr 0.8fr;
+}
+@media (max-width: 1024px) {
+  .booking-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* Återanvänd kortstil likt startsidan */
-.card{
-  background:#fff; border:1px solid #e5e7eb; border-radius:14px;
-  box-shadow:0 8px 24px rgba(0,0,0,.06);
+.card {
+  background: var(--kort-bakgrund, #fff); /* Uppdaterad för Dark Mode */
+  border: 1px solid var(--kantlinje-farg, #e5e7eb); /* Uppdaterad för Dark Mode */
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
 /* Kalenderkort */
-.calendar{ padding:16px; }
+.calendar {
+  padding: 16px;
+}
 
 /* Formkort */
-.form-card{ padding:18px; }
-.selected-range{ font-weight:700; margin-bottom:10px; }
-.message{ min-height:22px; margin-bottom:8px; }
-
-.form{ display:flex; flex-direction:column; gap:10px; }
-.form label{ font-weight:600; }
-.form input{
-  padding:10px 12px; border:1px solid #cbd5e1; border-radius:10px; font-size:16px;
+.form-card {
+  padding: 18px;
 }
-.form input:focus{ outline:2px solid var(--ring); outline-offset:2px; border-color:#94a3b8; }
-.form button{
-  margin-top:6px; padding:12px 14px; font-weight:700; font-size:16px; cursor:pointer;
-  background:var(--primary); color:#fff; border:1px solid var(--primary); border-radius:12px;
-  transition:.15s;
+.selected-range {
+  font-weight: 700;
+  margin-bottom: 10px;
 }
-.form button:hover{ background:var(--primary-600); }
-.form button:disabled{ background:#cbd5e1; border-color:#cbd5e1; cursor:not-allowed; }
+.message {
+  min-height: 22px;
+  margin-bottom: 8px;
+}
 
-/* Payment (Swish) */
-.payment{ text-align:center; margin-top:16px; }
-.payment[hidden]{ display:none !important; }
-.payment img{ max-width:200px; width:100%; height:auto; display:block; margin:10px auto 12px; border-radius:8px; }
-.payment a{ font-weight:700; text-decoration:underline; }
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.form label {
+  font-weight: 600;
+  color: var(--textfarg); /* Uppdaterad för Dark Mode */
+}
+.form input {
+  padding: 10px 12px;
+  border: 1px solid var(--kantlinje-farg, #cbd5e1); /* Uppdaterad för Dark Mode */
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: var(--bakgrundsfarg, #fff); /* Uppdaterad för Dark Mode */
+  color: var(--textfarg); /* Uppdaterad för Dark Mode */
+}
+.form input:focus {
+  outline: 2px solid var(--primar-farg, #0d6efd); /* Uppdaterad för Dark Mode */
+  outline-offset: 2px;
+  border-color: var(--primar-farg, #94a3b8);
+}
+.form button {
+  margin-top: 6px;
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  background: var(--primar-farg, #0d6efd); /* Uppdaterad för Dark Mode */
+  color: #fff;
+  border: 1px solid var(--primar-farg, #0d6efd);
+  border-radius: 12px;
+  transition: 0.15s;
+}
+.form button:hover {
+  filter: brightness(0.9); /* Mer generell hover-effekt */
+}
+.form button:disabled {
+  background: #cbd5e1;
+  border-color: #cbd5e1;
+  cursor: not-allowed;
+}
 
-/* Mindre hero */
-.hero.hero--small{ min-height:auto; padding: 30px 0; }
-.hero.hero--small .hero__content h2{ font-size: 32px; }
-.hero.hero--small .hero__content .sub{ margin-bottom: 12px; }
+/* ---- NYA STILAR FÖR SWISH-FLÖDET ---- */
+
+#swish-waiting-container {
+  display: none; /* Dold från början, styrs av JavaScript */
+  text-align: center;
+  margin-top: 20px;
+  border-top: 1px solid var(--kantlinje-farg, #e5e7eb); /* Avdelare */
+  padding-top: 20px;
+}
+
+#swish-qr-code {
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 15px auto;
+  border-radius: 8px;
+}
+
+#form-error {
+  color: #d93025; /* Standard röd färg för felmeddelanden */
+  margin-top: 10px;
+  font-weight: 500;
+  min-height: 1.2em; /* Tar upp plats även när den är tom */
+}
+
+#cancel-payment-button {
+    background-color: transparent;
+    color: var(--textfarg);
+    border: 1px solid var(--kantlinje-farg);
+    margin-top: 15px;
+    padding: 8px 12px;
+}
+#cancel-payment-button:hover {
+    background-color: var(--kantlinje-farg);
+}
+
+
+/* ---- SLUT PÅ NYA STILAR ---- */
+
+
+/* Befintliga stilar för hero och kalender */
+.hero.hero--small {
+  min-height: auto;
+  padding: 30px 0;
+}
+.hero.hero--small .hero__content h2 {
+  font-size: 32px;
+}
+.hero.hero--small .hero__content .sub {
+  margin-bottom: 12px;
+}
 
 /* Markering av valda datum (solid bakgrund) */
-.fc .fc-daygrid-day.selected-day{
-  background: #d1fae5 !important;      /* ljusgrön */
+.fc .fc-daygrid-day.selected-day {
+  background: #d1fae5 !important; /* ljusgrön */
 }
-.fc .fc-daygrid-day.selected-day .fc-daygrid-day-number{
+.fc .fc-daygrid-day.selected-day .fc-daygrid-day-number {
   font-weight: 700;
-  color: #065f46;                       /* mörkgrön text */
+  color: #065f46; /* mörkgrön text */
 }
