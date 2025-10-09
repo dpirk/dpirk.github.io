@@ -247,7 +247,7 @@ app.post('/api/book', async (req, res) => {
 
   const cleanPhone = String(phone).trim();
 const cleanPayeeAlias = String(process.env.SWISH_PAYEE_ALIAS).trim();
-const amountAsString = String(totalPrice);
+const amountAsString = totalPrice.toFixed(2);
 
   const swishPayload = {
   payeePaymentReference: booking.id,
