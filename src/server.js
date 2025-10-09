@@ -245,14 +245,18 @@ app.post('/api/book', async (req, res) => {
   const instructionUUID = crypto.randomUUID();
   console.log('Skapade Swish-förfrågan med UUID:', instructionUUID);
 
+  const cleanPhone = String(phone).trim();
+const cleanPayeeAlias = String(process.env.SWISH_PAYEE_ALIAS).trim();
+const amountAsString = String(totalPrice);
+
   const swishPayload = {
-    payeePaymentReference: booking.id,
-    callbackUrl: `https://personallagenhet.se/api/swish-callback`,
-    payerAlias: phone,
-    payeeAlias: process.env.SWISH_PAYEE_ALIAS,
-    amount: totalPrice,
-    currency: 'SEK',
-    message: `Bokning Fackens lgh ${booking.startDate}`
+  payeePaymentReference: booking.id,
+  callbackUrl: `https://personallagenhet.se/api/swish-callback`,
+  payerAlias: cleanPhone, // Använd den rensade variabeln
+  payeeAlias: cleanPayeeAlias, // Använd den rensade variabeln
+  amount: amountAsString, // Använd strängen istället för talet
+  currency: 'SEK',
+  message: `Bokning Fackens lgh ${booking.startDate}`
   };
 
   console.log('Skickar följande payload till Swish:', swishPayload);
