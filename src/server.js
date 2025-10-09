@@ -42,7 +42,24 @@ if (process.env.SWISH_CERT_PATH && process.env.SWISH_CERT_PASSWORD) {
     console.error('Kunde inte ladda Swish-certifikatet:', err.message);
   }
 }
+// Lägg till denna funktion i server.js
+function normalizeSwishPhone(phone) {
+  // Ta bort alla mellanslag och bindestreck
+  let p = String(phone).replace(/[\s-]/g, ''); 
 
+  // Om numret börjar med "07", ersätt "0" med "46"
+  if (p.startsWith('07')) {
+    return `46${p.substring(1)}`;
+  }
+
+  // Om numret redan börjar med "+46", ta bara bort plus-tecknet
+  if (p.startsWith('+46')) {
+    return p.substring(1);
+  }
+
+  // Annars, anta att formatet är korrekt och returnera det som det är
+  return p; 
+}
 // ---- Datumutils ----
 function parseLocalDate(yyyyMmDd) {
   const [y, m, d] = String(yyyyMmDd).split('-').map(Number);
@@ -261,7 +278,7 @@ app.post('/api/book', async (req, res) => {
   const instructionUUID = crypto.randomUUID();
   console.log('Skapade Swish-förfrågan med UUID:', instructionUUID);
 
-  const cleanPhone = String(phone).trim();
+ const cleanPhone = normalizeSwishPhone(phone);
 const cleanPayeeAlias = String(process.env.SWISH_PAYEE_ALIAS).trim();
 const amountAsString = totalPrice.toFixed(2);
 
