@@ -123,3 +123,89 @@ body{
 
 /* Footer */
 .site-footer{ display:none; }
+
+/* ---- Stilar för success.html ---- */
+
+.success-container {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #fff;
+  border-radius: 14px;
+  margin: 40px auto;
+  max-width: 600px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+}
+
+.success-container h2 {
+  font-size: 28px;
+  color: #065f46; /* Mörkgrön */
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.success-container p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.success-container .button {
+  display: inline-block;
+  padding: 12px 24px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  background: var(--primary, #0d6efd);
+  color: #fff;
+  border: 1px solid var(--primary, #0d6efd);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: .15s;
+}
+
+.success-container .button:hover {
+  filter: brightness(0.9);
+}
+
+
+/* ---- CSS-animation för ikonen ---- */
+.success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 3;
+  stroke: #065f46; /* Mörkgrön */
+  stroke-miterlimit: 10;
+  margin: 0 auto;
+  box-shadow: inset 0px 0px 0px #065f46;
+  animation: success-fill .4s ease-in-out .4s forwards, success-scale .3s ease-in-out .9s both;
+}
+
+.success-icon__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke: #065f46;
+  fill: none;
+  animation: success-stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.success-icon__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: success-stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards;
+}
+
+@keyframes success-stroke {
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes success-scale {
+  0%, 100% { transform: none; }
+  50% { transform: scale3d(1.1, 1.1, 1); }
+}
+@keyframes success-fill {
+  100% { box-shadow: inset 0px 0px 0px 40px #d1fae5; } /* Ljusgrön fyllning */
+}
