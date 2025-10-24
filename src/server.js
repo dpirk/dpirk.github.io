@@ -275,8 +275,9 @@ app.post('/api/book', async (req, res) => {
     return res.status(500).json({ error: 'Swish-betalning är inte konfigurerad korrekt på servern.' });
   }
 
-  const instructionUUID = crypto.randomUUID();
-  console.log('Skapade Swish-förfrågan med UUID:', instructionUUID);
+ const rawUUID = crypto.randomUUID();
+ const instructionUUID = rawUUID.replace(/-/g, ''); // <-- Ta bort bindestrecken
+ console.log('Skapade Swish-förfrågan med UUID (utan bindestreck):', instructionUUID); // Uppdaterad logg
 
  const cleanPhone = normalizeSwishPhone(phone);
 const cleanPayeeAlias = String(process.env.SWISH_PAYEE_ALIAS).trim();
