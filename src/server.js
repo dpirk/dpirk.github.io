@@ -276,8 +276,8 @@ app.post('/api/book', async (req, res) => {
   }
 
  const rawUUID = crypto.randomUUID();
- const instructionUUID = rawUUID.replace(/-/g, ''); // <-- Ta bort bindestrecken
- console.log('Skapade Swish-förfrågan med UUID (utan bindestreck):', instructionUUID); // Uppdaterad logg
+const instructionUUID = rawUUID.replace(/-/g, '').toUpperCase(); // <-- Konvertera till STORA bokstäver
+console.log('Skapade Swish-förfrågan med UUID (STORA bokstäver):', instructionUUID); // Uppdaterad logg
 
  const cleanPhone = normalizeSwishPhone(phone);
 const cleanPayeeAlias = String(process.env.SWISH_PAYEE_ALIAS).trim();
