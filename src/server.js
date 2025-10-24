@@ -39,7 +39,7 @@ if (process.env.SWISH_CERT_PATH && process.env.SWISH_CERT_PASSWORD) {
       passphrase: process.env.SWISH_CERT_PASSWORD,
     });
   } catch (err) {
-    console.error('Kunde inte ladda Swish-certifikatet:', err.message);
+    console.error('Kunde inte ladda Swish-certifikatet:', err); // <-- Logga HELA err-objektet
   }
 }
 // Lägg till denna funktion i server.js
