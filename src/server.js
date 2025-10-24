@@ -314,7 +314,7 @@ const amountAsString = totalPrice.toFixed(2);
      res.json({ paymentRequestToken, qrCode, bookingId: booking.id });
 
   } catch (err) {
-    console.error('Fel vid skapande av Swish-betalning:', err.response ? err.response.data : err.message);
+    console.error('Fel vid skapande av Swish-betalning:', err); // <-- Logga HELA err-objektet
     res.status(500).json({ error: 'Kunde inte initiera betalning med Swish.' });
   }
 }); // <-- HÄR SLUTAR /api/book-ROUTEN
