@@ -296,7 +296,10 @@ const amountAsString = totalPrice.toFixed(2);
   console.log('Skickar följande payload till Swish:', swishPayload);
 
   try {
-  const response = await axios.put( /* ... ditt anrop ... */ );
+  const response = await axios.put( `${process.env.SWISH_API_URL}/api/v2/paymentrequests/${instructionUUID}`,
+    swishPayload,
+    { httpsAgent: swishAgent }
+  );
 
   console.log('Swish Response Headers:', response.headers); // Behåll denna för nu
 
