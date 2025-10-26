@@ -328,8 +328,8 @@ const amountAsString = totalPrice.toFixed(2);
     console.error('Fel: Fick ingen giltig token från Swish i varken PaymentRequestToken eller Location header.', response.status, response.headers);
     throw new Error('Kunde inte hämta betalningsinformation från Swish.');
   }
-
-  const qrCode = await qrcode.toDataURL(tokenForQr); // Använd den hittade token/UUID
+  const swishUri = `swish://paymentrequest?token=${tokenForQr}`;
+  const qrCode = await qrcode.toDataURL(swishUri);
   pendingBookings[instructionUUID] = booking; // Vi använder fortfarande vårt eget UUID för pending
   setTimeout(() => { /* ... */ });
 
