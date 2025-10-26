@@ -301,14 +301,17 @@ const amountAsString = totalPrice.toFixed(2);
   swishPayload,
   { httpsAgent: swishAgent }
 );
-
+console.log('Swish Response Headers:', response.headers); // TA BORT SENARE
     const paymentRequestToken = response.headers['paymentrequesttoken'];
     
+  if (!paymentRequestToken || typeof paymentRequestToken !== 'string') {
+    console.error('Fel: Fick ingen giltig paymentRequestToken från Swish, trots lyckat anrop?', response.status, response.headers);
+    throw new Error('Kunde inte hämta betalningsinformation från Swish.');
+  }
+
     //QRkod 
     const qrCode = await qrcode.toDataURL(paymentRequestToken);
-    
     pendingBookings[instructionUUID] = booking;
-
     setTimeout(() => { if (pendingBookings[instructionUUID]) delete pendingBookings[instructionUUID]; }, 5 * 60 * 1000);
 
      res.json({ paymentRequestToken, qrCode, bookingId: booking.id });
