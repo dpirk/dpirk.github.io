@@ -296,31 +296,47 @@ const amountAsString = totalPrice.toFixed(2);
   console.log('Skickar följande payload till Swish:', swishPayload);
 
   try {
-  const response = await axios.put(
-  `${process.env.SWISH_API_URL}/api/v2/paymentrequests/${instructionUUID}`, // <--- /api är tillbaka!
-  swishPayload,
-  { httpsAgent: swishAgent }
-);
-console.log('Swish Response Headers:', response.headers); // TA BORT SENARE
-    const paymentRequestToken = response.headers['paymentrequesttoken'];
-    
-  if (!paymentRequestToken || typeof paymentRequestToken !== 'string') {
-    console.error('Fel: Fick ingen giltig paymentRequestToken från Swish, trots lyckat anrop?', response.status, response.headers);
+  const response = await axios.put( /* ... ditt anrop ... */ );
+
+  console.log('Swish Response Headers:', response.headers); // Behåll denna för nu
+
+  let tokenForQr = null; // Variabel för det vi ska använda till QR-koden
+
+  // Försök först hämta från den förväntade v2-headern
+  const v2Token = response.headers['paymentrequesttoken']; 
+  if (v2Token && typeof v2Token === 'string') {
+      tokenForQr = v2Token;
+      console.log('Hittade token i PaymentRequestToken-header (v2-stil).');
+  } else {
+      // FALLBACK: Om v2-token saknas, försök extrahera från Location-headern (v1-stil)
+      const locationHeader = response.headers['location'];
+      if (locationHeader && typeof locationHeader === 'string') {
+          const urlParts = locationHeader.split('/');
+          const uuidFromLocation = urlParts[urlParts.length - 1]; // Hämta sista delen av URL:en
+          if (uuidFromLocation && uuidFromLocation.length === 32) { // Enkel validering
+              tokenForQr = uuidFromLocation;
+              console.log('Hittade token genom att extrahera från Location-header (v1-stil).');
+          }
+      }
+  }
+
+  // Kontrollera om vi lyckades få en token på något sätt
+  if (!tokenForQr) {
+    console.error('Fel: Fick ingen giltig token från Swish i varken PaymentRequestToken eller Location header.', response.status, response.headers);
     throw new Error('Kunde inte hämta betalningsinformation från Swish.');
   }
 
-    //QRkod 
-    const qrCode = await qrcode.toDataURL(paymentRequestToken);
-    pendingBookings[instructionUUID] = booking;
-    setTimeout(() => { if (pendingBookings[instructionUUID]) delete pendingBookings[instructionUUID]; }, 5 * 60 * 1000);
+  const qrCode = await qrcode.toDataURL(tokenForQr); // Använd den hittade token/UUID
+  pendingBookings[instructionUUID] = booking; // Vi använder fortfarande vårt eget UUID för pending
+  setTimeout(() => { /* ... */ });
 
-     res.json({ paymentRequestToken, qrCode, bookingId: booking.id });
+  // Skicka tillbaka den token vi hittade (viktigt för swish:// länken)
+  res.json({ paymentRequestToken: tokenForQr, qrCode, bookingId: booking.id });
 
-  } catch (err) {
-    // FÖRSÖK LOGGA DET SPECIFIKA SVARET FRÅN SWISH
-console.error('Fel vid skapande av Swish-betalning:', err.response ? err.response.data : err.message);
-    res.status(500).json({ error: 'Kunde inte initiera betalning med Swish.' });
-  }
+} catch (err) {
+  console.error('Fel vid skapande av Swish-betalning:', err); 
+  res.status(500).json({ error: 'Kunde inte initiera betalning med Swish.' });
+}
 }); // <-- HÄR SLUTAR /api/book-ROUTEN
 
 // ---- CALLBACK-ROUTE FÖR SWISH ----
