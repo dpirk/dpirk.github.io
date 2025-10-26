@@ -293,7 +293,6 @@ const amountAsString = totalPrice.toFixed(2);
   message: `Bokning Fackens lgh ${booking.startDate}`
   };
 
-  console.log('Skickar följande payload till Swish:', swishPayload);
 
   try {
   const response = await axios.put( `${process.env.SWISH_API_URL}/api/v2/paymentrequests/${instructionUUID}`,
@@ -301,7 +300,6 @@ const amountAsString = totalPrice.toFixed(2);
     { httpsAgent: swishAgent }
   );
 
-  console.log('Swish Response Headers:', response.headers); // Behåll denna för nu
 
   let tokenForQr = null; // Variabel för det vi ska använda till QR-koden
 
@@ -309,7 +307,6 @@ const amountAsString = totalPrice.toFixed(2);
   const v2Token = response.headers['paymentrequesttoken']; 
   if (v2Token && typeof v2Token === 'string') {
       tokenForQr = v2Token;
-      console.log('Hittade token i PaymentRequestToken-header (v2-stil).');
   } else {
       // FALLBACK: Om v2-token saknas, försök extrahera från Location-headern (v1-stil)
       const locationHeader = response.headers['location'];
@@ -318,7 +315,6 @@ const amountAsString = totalPrice.toFixed(2);
           const uuidFromLocation = urlParts[urlParts.length - 1]; // Hämta sista delen av URL:en
           if (uuidFromLocation && uuidFromLocation.length === 32) { // Enkel validering
               tokenForQr = uuidFromLocation;
-              console.log('Hittade token genom att extrahera från Location-header (v1-stil).');
           }
       }
   }
