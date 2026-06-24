@@ -365,7 +365,7 @@ app.post('/api/swish-callback', (req, res) => {
             <p>Din bokning är nu bekräftad för perioden:</p>
             <p style="font-size:16px;color:#003366;"><strong>${fmt(booking.startDate)} – ${fmt(booking.endDate)}</strong></p>
             <p><strong>Totalkostnad:</strong> ${totalPrice} kr (${DAILY_RATE_SEK} kr per dag)</p>
-            <p style="font-size:14px;line-height:1.5;">Kom ihåg att ta med eget sänglinne och handdukar. Nyckel hämtas/lämnas från receptionen i Kalix stadshus, nygatan 4.</p>
+            <p style="font-size:14px;line-height:1.5;">Kom ihåg att ta med eget sänglinne och handdukar. Nyckel hämtas/lämnas från receptionen i Kalix kommunhus, nygatan 4.</p>
             <p>Tack för din bokning!</p>
           </div>`;
         safeSendMail({ from: process.env.MAIL_FROM || 'Fackens <no-reply@example.com>', to: booking.email, subject: 'Bokningsbekräftelse – Fackens lägenhet 722 Huvudsta', html: htmlMail });
